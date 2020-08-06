@@ -8,7 +8,7 @@ func missingEpisodeString(episodes []*Episode) string {
 	l := len(episodes)
 
 	if l == 0 {
-		return "n/a"
+		return ""
 	}
 
 	if l == 1 {
@@ -26,4 +26,16 @@ func missingEpisodeString(episodes []*Episode) string {
 	}
 
 	return result + fmt.Sprintf(" and %d do not have intros detected.", episodes[l-1].Number())
+}
+
+func seasonStatusString(result *Result) string {
+	if result.DetectedEpisodesCount == 0 {
+		return "No"
+	}
+
+	if result.DetectedEpisodesCount == result.TotalEpisodesCount {
+		return "Yes"
+	}
+
+	return "Partial"
 }

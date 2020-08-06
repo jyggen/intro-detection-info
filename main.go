@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/briandowns/spinner"
 	"github.com/gammazero/workerpool"
 	"github.com/spf13/cobra"
@@ -18,15 +19,24 @@ type Result struct {
 	MissingEpisodesList   []*Episode
 }
 
+var format string
 var timeout int
 
 func main() {
 	cmd := &cobra.Command{
 		Args: cobra.ExactArgs(2),
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			if !isValidFormat(format) {
+				return fmt.Errorf("\"%s\" is not a known output format, expected one of %s", format, formats)
+			}
+
+			return nil
+		},
 		RunE: run,
 		Use:  os.Args[0],
 	}
 
+	cmd.PersistentFlags().StringVar(&format, "format", "ascii", fmt.Sprintf("preferred output format, should be one of %s", formats))
 	cmd.PersistentFlags().IntVar(&timeout, "timeout", 10, "timeout for all HTTP requests, in seconds")
 
 	err := cmd.Execute()
@@ -148,7 +158,12 @@ func run(cmd *cobra.Command, args []string) error {
 	})
 
 	s.Stop()
-	outputAsTable(results)
 
-	return nil
+	if format == "ascii" {
+		err = outputAsAscii(results)
+	} else if format == "csv" {
+		err = outputAsCsv(results)
+	}
+
+	return err
 }

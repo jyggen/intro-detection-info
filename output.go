@@ -1,39 +1,83 @@
 package main
 
 import (
+	"encoding/csv"
 	"github.com/olekukonko/tablewriter"
 	"os"
 	"strconv"
 )
 
-func outputAsTable(results []*Result) {
+var formats = []string{"csv", "ascii"}
+
+func isValidFormat(format string) bool {
+	for _, allowed := range formats {
+		if allowed == format {
+			return true
+		}
+	}
+
+	return false
+}
+
+func outputAsAscii(results []*Result) error {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetAutoMergeCellsByColumnIndex([]int{0})
 	table.SetHeader([]string{"Show", "Season", "Detected", "Comment"})
 	table.SetRowLine(true)
 
 	for _, result := range results {
-		var status string
 		var color int
-		var missing string
 
 		if result.DetectedEpisodesCount == 0 {
-			status = "No"
 			color = tablewriter.FgRedColor
 		} else if result.DetectedEpisodesCount == result.TotalEpisodesCount {
-			status = "Yes"
 			color = tablewriter.FgGreenColor
 		} else {
-			status = "Partial"
 			color = tablewriter.FgYellowColor
-			missing = missingEpisodeString(result.MissingEpisodesList)
 		}
 
 		table.Rich(
-			[]string{result.Show.Title(), strconv.Itoa(result.Season.Number()), status, missing},
+			[]string{
+				result.Show.Title(),
+				strconv.Itoa(result.Season.Number()),
+				seasonStatusString(result),
+				missingEpisodeString(result.MissingEpisodesList),
+			},
 			[]tablewriter.Colors{{}, {}, {tablewriter.Normal, color}},
 		)
 	}
 
 	table.Render()
+
+	return nil
+}
+
+func outputAsCsv(results []*Result) error {
+	rows := make([][]string, len(results)+1)
+	rows[0] = []string{"Show", "Season", "Detected", "Comment"}
+
+	for index, result := range results {
+		rows[index+1] = []string{
+			result.Show.Title(),
+			strconv.Itoa(result.Season.Number()),
+			seasonStatusString(result),
+			missingEpisodeString(result.MissingEpisodesList),
+		}
+	}
+
+	w := csv.NewWriter(os.Stdout)
+
+	for _, row := range rows {
+		if err := w.Write(row); err != nil {
+			return err
+		}
+	}
+
+	w.Flush()
+
+	if err := w.Error(); err != nil {
+		return err
+	}
+
+	return nil
 }
