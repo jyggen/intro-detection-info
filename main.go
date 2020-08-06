@@ -32,8 +32,9 @@ func main() {
 
 			return nil
 		},
-		RunE: run,
-		Use:  os.Args[0],
+		RunE:    run,
+		Use:     os.Args[0],
+		Version: getBuildInfo(),
 	}
 
 	cmd.PersistentFlags().StringVar(&format, "format", "ascii", fmt.Sprintf("preferred output format, should be one of %s", formats))
