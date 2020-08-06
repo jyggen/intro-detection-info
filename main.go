@@ -18,12 +18,16 @@ type Result struct {
 	MissingEpisodesList   []*Episode
 }
 
+var timeout int
+
 func main() {
 	cmd := &cobra.Command{
 		Args: cobra.ExactArgs(2),
 		RunE: run,
 		Use:  os.Args[0],
 	}
+
+	cmd.PersistentFlags().IntVar(&timeout, "timeout", 10, "timeout for all HTTP requests, in seconds")
 
 	err := cmd.Execute()
 
@@ -33,7 +37,7 @@ func main() {
 }
 
 func run(cmd *cobra.Command, args []string) error {
-	plex, err := NewPlex(args[0], args[1])
+	plex, err := NewPlex(args[0], args[1], time.Second*time.Duration(timeout))
 
 	if err != nil {
 		return err

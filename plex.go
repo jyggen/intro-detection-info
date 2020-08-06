@@ -11,14 +11,14 @@ type Plex struct {
 	connection *plex.Plex
 }
 
-func NewPlex(baseUrl string, token string) (*Plex, error) {
+func NewPlex(baseUrl string, token string, timeout time.Duration) (*Plex, error) {
 	connection, err := plex.New(strings.TrimRight(baseUrl, "/"), token)
 
 	if err != nil {
 		return &Plex{}, err
 	}
 
-	connection.HTTPClient.Timeout = time.Second * 10
+	connection.HTTPClient.Timeout = timeout
 
 	_, err = connection.Test()
 
