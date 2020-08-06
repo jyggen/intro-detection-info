@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 )
 
 func missingEpisodeString(episodes []*Episode) string {
@@ -27,11 +26,4 @@ func missingEpisodeString(episodes []*Episode) string {
 	}
 
 	return result + fmt.Sprintf(" and %d do not have intros detected.", episodes[l-1].Number())
-}
-
-func errorAndExit(name string, err error) {
-	fmt.Fprintf(os.Stderr, "error: %s\n\n", err)
-	fmt.Fprintf(os.Stderr, "usage: %s <base URL> <token>\n", name)
-
-	os.Exit(1)
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jyggen/go-plex-client"
 	"strings"
-  "time"
+	"time"
 )
 
 type Plex struct {
@@ -18,7 +18,7 @@ func NewPlex(baseUrl string, token string) (*Plex, error) {
 		return &Plex{}, err
 	}
 
-  connection.HTTPClient.Timeout = time.Second * 10
+	connection.HTTPClient.Timeout = time.Second * 10
 
 	_, err = connection.Test()
 
