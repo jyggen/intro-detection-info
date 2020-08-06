@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"github.com/mattn/go-colorable"
 	"github.com/olekukonko/tablewriter"
 	"os"
 	"strconv"
@@ -20,7 +21,7 @@ func isValidFormat(format string) bool {
 }
 
 func outputAsAscii(results []*Result) error {
-	table := tablewriter.NewWriter(os.Stdout)
+	table := tablewriter.NewWriter(colorable.NewColorableStdout())
 	table.SetAutoMergeCellsByColumnIndex([]int{0})
 	table.SetHeader([]string{"Show", "Season", "Detected", "Comment"})
 	table.SetRowLine(true)
