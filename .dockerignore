@@ -1,0 +1,8 @@
+.DS_Store
+.git
+.gitignore
+.idea
+CHANGELOG.md
+Dockerfile
+LICENSE
+README.md
