@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2022-02-28
+### Fixed
+- Updated dependencies in order to support recent Plex changes.
+
 ## [1.0.0] - 2020-08-07
 ### Added
 - Support for csv output format.
@@ -20,7 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/jyggen/intro-detection-info/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/jyggen/intro-detection-info/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/jyggen/intro-detection-info/compare/1..0...1.0.1
 [1.0.0]: https://github.com/jyggen/intro-detection-info/compare/0.1.0...1.0.0
 [0.1.0]: https://github.com/jyggen/intro-detection-info/tag/0.1.0
 

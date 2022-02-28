@@ -31,4 +31,4 @@ require (
 	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9 // indirect
 	gopkg.in/resty.v1 v1.12.0 // indirect
 )
- 
+
