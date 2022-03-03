@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/briandowns/spinner"
 	"github.com/gammazero/workerpool"
+	"github.com/mattn/go-colorable"
 	"github.com/spf13/cobra"
+	"io"
 	"os"
 	"sort"
 	"sync"
@@ -19,6 +21,7 @@ type Result struct {
 	MissingEpisodesList   []*Episode
 }
 
+var colors bool
 var format string
 var timeout int
 
@@ -37,6 +40,7 @@ func main() {
 		Version: getBuildInfo(),
 	}
 
+	cmd.PersistentFlags().BoolVar(&colors, "colors", true, "whether colors should be used in output or not")
 	cmd.PersistentFlags().StringVar(&format, "format", "ascii", fmt.Sprintf("preferred output format, should be one of %s", formats))
 	cmd.PersistentFlags().IntVar(&timeout, "timeout", 10, "timeout for all HTTP requests, in seconds")
 
@@ -61,12 +65,21 @@ func run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	var writer io.Writer
+
+	if colors {
+		writer = colorable.NewColorableStdout()
+	} else {
+		writer = colorable.NewNonColorable(os.Stdout)
+	}
+
 	s := spinner.New(
 		spinner.CharSets[14],
 		250*time.Millisecond,
 		spinner.WithWriter(os.Stderr),
 		spinner.WithSuffix(" Fetching metadata..."),
 		spinner.WithFinalMSG("Metadata fetched.\n"),
+		spinner.WithWriter(writer),
 	)
 
 	s.Start()

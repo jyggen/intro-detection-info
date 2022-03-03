@@ -21,7 +21,14 @@ func isValidFormat(format string) bool {
 }
 
 func outputAsAscii(results []*Result) error {
-	table := tablewriter.NewWriter(colorable.NewColorableStdout())
+	var table *tablewriter.Table
+
+	if colors {
+		table = tablewriter.NewWriter(colorable.NewColorableStdout())
+	} else {
+		table = tablewriter.NewWriter(colorable.NewNonColorable(os.Stdout))
+	}
+
 	table.SetAutoMergeCellsByColumnIndex([]int{0})
 	table.SetHeader([]string{"Show", "Season", "Detected", "Comment"})
 	table.SetRowLine(true)
