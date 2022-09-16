@@ -21,7 +21,7 @@ func missingEpisodeString(episodes []*Episode) string {
 
 	result := fmt.Sprintf("Episodes %d", episodes[0].Number())
 
-	for _, episode := range episodes[1 : l-2] {
+	for _, episode := range episodes[1 : l-1] {
 		result += fmt.Sprintf(", %d", episode.Number())
 	}
 
