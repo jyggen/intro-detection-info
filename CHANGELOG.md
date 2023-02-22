@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] - 2023-02-22
+### Changed
+- Move automatic Docker builds from Docker Hub to GitHub Actions.
+
 ## [1.1.1] - 2022-09-16
 ### Fixed
 - All episodes without intros should now be displayed in the output.
@@ -32,7 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/jyggen/intro-detection-info/compare/1.1.1...HEAD
+[Unreleased]: https://github.com/jyggen/intro-detection-info/compare/1.1.2...HEAD
+[1.1.2]: https://github.com/jyggen/intro-detection-info/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/jyggen/intro-detection-info/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/jyggen/intro-detection-info/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/jyggen/intro-detection-info/compare/1.0.0...1.0.1
